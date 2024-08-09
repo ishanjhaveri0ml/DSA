@@ -1,0 +1,34 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        # If the string is empty or has only one character, it's a palindrome itself
+        if len(s) == 0:
+            return ""
+        
+        # Function to expand around the center and return the longest palindrome
+        def expandAroundCenter(left: int, right: int) -> str:
+            # Expand as long as the characters on both sides are the same
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                left -= 1
+                right += 1
+            # Return the longest palindrome substring found
+            return s[left + 1:right]
+        
+        longest = ""
+        
+        # Loop through each character in the string
+        for i in range(len(s)):
+            # Get the longest palindrome with center at i (odd length)
+            odd_palindrome = expandAroundCenter(i, i)
+            # Get the longest palindrome with center at i and i+1 (even length)
+            even_palindrome = expandAroundCenter(i, i + 1)
+            
+            # Update the longest palindrome found so far
+            if len(odd_palindrome) > len(longest):
+                longest = odd_palindrome
+            if len(even_palindrome) > len(longest):
+                longest = even_palindrome
+        
+        return longest
+
+
+        
